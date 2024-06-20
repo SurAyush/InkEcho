@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.posts{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card{
+    margin: 1.25rem;
+    padding: 1rem;
+    border: 0.075rem solid #ccc;
+    border-radius: 0.75rem;
+    width: 25rem;
+    font-family: "Lobster Two", sans-serif;
+    font-weight: 400;
+    height: 37.5rem;
+}
+
+.card-img{
+    width: 100%;
+    height: 18.75rem;
+}
+.card_image{
+    width: 100%;
+    height: 18.75rem;
+    border-radius: 1rem;
+}
+
+.card-title{
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.75rem 0.125rem 0.25rem 0.125rem;
+}
+
+.card-cat{
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin: 0.25rem 0.125rem;
+    opacity: 0.7;
+}
+
+.card-author{
+    margin: 0.75rem;
+    padding: 0.75rem;
+}
+
+.author-img{
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 1.25rem;
+}
+
+.post-page{
+    width: 50%;
+    padding: 4rem;
+    margin: auto;
+    font-family: "Lobster Two", sans-serif;
+    text-align: center;
+}
+
+.img-div{
+    width: 100%;
+    height: 25rem;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+}
+
+.img-blog{
+    width: 100%;
+    height: 25rem;
+    border-radius: 1rem;
+}
+
+.title-div{
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-top:1rem;
+    margin-bottom: 1rem;
+}
+
+.cont-div{
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin-top: 5rem;
+    margin-bottom: 4rem;
+    opacity: 0.8;
+    line-height: 1.5;
+}
+
+.author-div{
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    text-align: start;
+}
+
+.author-full-img{
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 1.25rem;
+}
+
+.line{
+    width: 80%;
+    margin: auto;
+    margin-top: 7rem;
+    margin-bottom: 4rem;
+    border: 0.1rem solid grey;
+}
+
+.author-name{
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 1.75rem 0.125rem 0.25rem 0.125rem;
+}
