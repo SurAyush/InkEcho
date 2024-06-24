@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import {dummyProfile} from "../data.js";
+import {Link} from "react-router-dom";
 
 const UserProfile = () =>{
     
@@ -23,10 +24,15 @@ const UserProfile = () =>{
 
     return(
         <div className="profile">
+            <div className="centre-btn-cont">
+                <Link to={`/myposts/12`}>
+                    <button type="button" className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">MyPosts</button>
+                </Link>
+            </div>
             <form action='#'>
 
             <div className="profile-img-cont">
-                <img className="profile-img" src={image} alt={profile.name}/>
+                <img className="profile-img" src={image} alt={profile.name} accept='png, jpg, jpeg'/>
                 <label htmlFor="image">
                     <div className="edit-button">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="edit-icon size-6">

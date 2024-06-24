@@ -11,12 +11,12 @@ import AuthorPosts from './pages/AuthorPosts'
 import Authors from './pages/Authors'
 import CategoryPosts from './pages/CategoryPosts'
 import CreatePost from './pages/CreatePost'
+import EditPost from './pages/EditPost'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Logout from './pages/Logout'
 import Register from './pages/Register'
 import UserProfile from './pages/UserProfile'
-import EditPost from './pages/EditPost'
 import PostDetails from './pages/PostDetails'
 
 const router = createBrowserRouter([
@@ -32,6 +32,7 @@ const router = createBrowserRouter([
       {path:"profile/:id", element: <UserProfile />},
       {path:"authors", element: <Authors />},
       {path:"create", element: <CreatePost />},
+      {path:"edit/:id", element: <EditPost />},
       {path:"posts/:id", element: <PostDetails />},
       {path:"posts/authors/:id", element: <AuthorPosts />},
       {path:"posts/categories/:category", element: <CategoryPosts />},

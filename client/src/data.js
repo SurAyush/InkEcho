@@ -2,7 +2,7 @@ export const dummyPosts = [
     {
         id:1,
         thumbnail:"https://png.pngtree.com/thumb_back/fh260/background/20230408/pngtree-robot-white-cute-robot-blue-light-background-image_2199825.jpg",
-        category:"technology",
+        category:"Technology",
         title:"Rise Of The Robots: In the Upcoming Decade",
         des:"Lorem ipsum dolor sit amet. Et aliquid nulla et repellat unde qui maxime dolorum. Nam quia dolorem id sapiente molestiae id placeat expedita vel distinctio nesciunt vel porro iusto quo quisquam dolorem.",
         authorId:23
@@ -103,4 +103,52 @@ export const dummyProfile = {
     posts:10,
     password:"",
     image:"https://miro.medium.com/v2/resize:fill:320:214/1*sMYp2cB4vfahbld24J-wnw.png"
+}
+
+export const myposts=[
+    {
+        id:1,
+        thumbnail:"https://png.pngtree.com/thumb_back/fh260/background/20230408/pngtree-robot-white-cute-robot-blue-light-background-image_2199825.jpg",
+        category:"technology",
+        title:"Rise Of The Robots: In the Upcoming Decade",
+    },
+    {
+        id:2,
+        thumbnail:"https://png.pngtree.com/thumb_back/fh260/background/20230408/pngtree-robot-white-cute-robot-blue-light-background-image_2199825.jpg",
+        category:"farming",
+        title:"Rise Of Taxes",
+    },
+    {
+        id:1,
+        thumbnail:"https://png.pngtree.com/thumb_back/fh260/background/20230408/pngtree-robot-white-cute-robot-blue-light-background-image_2199825.jpg",
+        category:"education",
+        title:"New Education Policy",
+    }
+]
+
+export const post_categories = [
+    "Technology",
+    "Health & Wellness",
+    "Travel",
+    "Lifestyle",
+    "Finance",
+    "Food & Drink",
+    "Education",
+    "Entertainment",
+    "Science & Nature",
+    "DIY & Crafts",
+    "Automotive",
+    "Parenting",
+    "Sports & Fitness",
+    "Politics & Society",
+    "Hobbies"
+];
+
+export const sample_edit = {
+    id:1,
+    thumbnail:"",
+    category:"Technology",
+    title:"Rise Of The Robots: In the Upcoming Decade",
+    content:"Lorem ipsum dolor sit amet. Et aliquid nulla et repellat unde qui maxime dolorum. Nam quia dolorem id sapiente molestiae id placeat expedita vel distinctio nesciunt vel porro iusto quo quisquam dolorem.",
+    authorId:23
 }
