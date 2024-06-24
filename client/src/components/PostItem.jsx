@@ -14,13 +14,15 @@ export function PostItem({id, thumbnail, category, title, des, authorId}){
                 <h4>{title_comp}</h4>
             </div>
             <div className="card-cat">
-                <p>{category}</p>
+                <Link to={`/posts/categories/${category}`}>
+                    <p>{category}</p>
+                </Link>
             </div>
             <div className="card-des">
                 <p>{des_comp}</p>
             </div>
             <div className="card-author">
-                <Link to={`/author/${authorId}`}>
+                <Link to={`/posts/authors/${authorId}`}>
                 <img src={thumbnail} className="author-img"></img>
                 <span>{authorId}</span>
                 </Link>

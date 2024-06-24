@@ -8,11 +8,27 @@ function Posts() {
     const [posts, setPosts] = useState(dummyPosts);
 
     return(
-        <div className="posts">
-            {posts.map((post) => (
-                <PostItem key={post.id} id={post.id} thumbnail={post.thumbnail} category={post.category} title={post.title} des={post.des} authorId={post.authorId}/>
-            ))}
-        </div>
+        <>
+        {posts && (
+            <div className="posts">
+                {posts.map((post) => (
+                    <PostItem 
+                        key={post.id} 
+                        id={post.id} 
+                        thumbnail={post.thumbnail} 
+                        category={post.category} 
+                        title={post.title} 
+                        des={post.des} 
+                        authorId={post.authorId}/>
+                ))}
+            </div>
+        )}
+        {!posts && (
+            <div className="no-card">
+                No Blogs found
+            </div>
+        )}
+        </>
     )
 }
 

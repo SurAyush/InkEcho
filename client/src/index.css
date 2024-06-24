@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+    font-family: "Lobster Two", sans-serif;
+}
 .posts{
     display: flex;
     flex-wrap: wrap;
@@ -14,7 +17,6 @@
     border: 0.075rem solid #ccc;
     border-radius: 0.75rem;
     width: 25rem;
-    font-family: "Lobster Two", sans-serif;
     font-weight: 400;
     height: 37.5rem;
 }
@@ -59,7 +61,6 @@
     width: 50%;
     padding: 4rem;
     margin: auto;
-    font-family: "Lobster Two", sans-serif;
     text-align: center;
 }
 
@@ -121,3 +122,91 @@
     font-weight: 700;
     margin: 1.75rem 0.125rem 0.25rem 0.125rem;
 }
+
+.form-box{
+    width: 50%;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+    padding: 2rem;
+}
+
+.title{
+    font-size: 3rem;
+    text-align: center;
+    font-weight: 700;
+    margin-top:1rem;
+    margin-bottom: 1rem;
+}
+
+.highlight-span{
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: #2E8BC0;
+    text-decoration: underline;
+    margin-bottom: 4rem;
+}
+
+.authors{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 8rem;
+}
+
+.author-card{
+    margin: 1rem;
+    width: 18rem;
+}
+
+.no-card{
+    margin-top: 3rem;
+    margin-bottom: 8rem;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.profile{
+    width:50%;
+    margin:auto;
+}
+.profile-img-cont{
+    width: 10rem;
+    height:10rem;
+    border: 0.4rem solid gray;
+    border-radius: 50%;
+    margin:auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.profile-img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.edit-button{
+    width:2rem;
+    height:2rem;
+    background-color: white;
+    position: absolute;
+    top:7.25rem;
+    left: 6.5rem;
+    border: 0.25rem solid gray;
+    border-radius: 50%;
+    padding:1px;
+    cursor: pointer;
+}
+
+.edit-icon{
+    width:80%;
+    height:80%;
+    margin: auto;
+    position: relative;
+    top: 3px;
+}
+

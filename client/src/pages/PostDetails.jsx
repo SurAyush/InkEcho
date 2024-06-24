@@ -1,4 +1,5 @@
 import React from "react";
+import Buttons from "../components/Buttons.jsx";
 import { dummyContent, dummyPosts } from "../data.js";
 import {Link} from "react-router-dom";
 const post = dummyPosts[0]
@@ -12,6 +13,7 @@ const PostDetails = () =>{
             <div className="title-div">
                 {post.title}
             </div>
+            <Buttons/>
             <div className="cont-div">
                 {dummyContent}
             </div>
