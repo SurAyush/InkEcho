@@ -4,34 +4,81 @@ const HttpError = require("../models/errorModel.js");
 const fs = require("fs");
 const path = require("path");
 const {v4: uuid} = require('uuid');
+const valid_categories = require("../helper/categories.js");
 
 
 //To get a post
 // GET: api/posts/:id
 // UNPROTECTED
 const getPost = async(req,res,next) =>{
-    res.json("Get a post");
+    try{
+        const postId = req.params.id;
+
+        if(postId.length != 24){
+            return next(new HttpError("Invalid post id",400));
+        }
+        const post = await Post.findById(postId);
+        if(!post){
+            return next(new HttpError("Post not found",404));
+        }
+        res.json(post);
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
 }
 
 //To get all posts
 // GET: api/posts/
 // UNPROTECTED
 const getAllPost = async(req,res,next) =>{
-    res.json("Get all posts");
+    try{
+        const posts = await Post.find({}).sort({updatedAt:-1});         //sort by updatedAt (-1 means descending order)
+        if(!posts){
+            return next(new HttpError("No posts found",404));
+        }
+        res.json(posts);
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
 }
 
 //To get all posts of a category
 // GET: api/posts/category/:category
 // UNPROTECTED
 const getCategoryPost = async(req,res,next) =>{
-    res.json("Getting category wise posts");
+    try{
+        const {category} = req.params;
+        const catPosts = await Post.find({category:category}).sort({updatedAt:-1});
+        if(!catPosts || catPosts.length==0){
+            res.json("No posts found in this category");        //shouldn't be an error
+        }
+        res.json(catPosts);
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
 }
 
 //To get all posts of an author
 // GET: api/posts/user/:id
 // UNPROTECTED
 const getAuthorPost = async(req,res,next) =>{
-    res.json("Getting author wise posts");
+    try{
+        const authorId = req.params.id;
+        if(authorId.length!=24){
+            return next(new HttpError("Invalid author id",400));
+        }
+        const authorPosts = await Post.find({author:authorId}).sort({updatedAt:-1});
+        if(!authorPosts || authorPosts.length==0){
+            res.json("No posts found by this author");        //shouldn't be an error
+        }
+        res.json(authorPosts);
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
 }
 
 //To create a new post
@@ -104,14 +151,121 @@ const createNewPost = async(req,res,next) =>{
 // PATCH: api/posts/:id
 // PROTECTED
 const editPost = async(req,res,next) =>{
-    res.json("Editing post");
+    try{
+        const postId = req.params.id;
+        const {title,category,description} = req.body;
+        const thumbnail = req.files.thumbnail;
+        if(!title ||!description ||!category){
+            return next(new HttpError("Please provide all the fields",422));
+        }
+        const currUserId = req.user.userId;
+        const post = await Post.findById(postId);
+
+        //Authorization
+        if(currUserId != post.author){
+            return next(new HttpError("You are not authorized to edit this post",403));
+        }
+
+        //Category validation
+        if(!valid_categories.includes(category)){
+            return next(new HttpError("Invalid category",400));
+        }
+
+        let new_thumbnail = post.thumbnail;
+        if(thumbnail){
+            
+            //checking size of thumbnail
+            if(thumbnail.size>2000000)  //>2MB
+            {
+                return next(new HttpError("File size too large",422));
+            }
+
+            //remove previous thumbnail
+            if(post.thumbnail){
+                fs.unlink(path.join(__dirname,'..','uploads',post.thumbnail),(err)=>{
+                    if(err){
+                        return next(new HttpError(err));
+                    }
+                });
+            }
+
+            //save new thumbnail
+            const filename = thumbnail.name;
+            const splittedfilename = filename.split('.');
+            const uniquefilename = splittedfilename[0]+"-"+uuid() + "." + splittedfilename[splittedfilename.length - 1];
+            thumbnail.mv(path.join(__dirname,"/../uploads",uniquefilename),async (err)=>{
+                if(err){
+                    return next(new HttpError(err));
+                }
+            });
+            new_thumbnail = uniquefilename;
+        }
+        
+        //updating post
+        const result  = await Post.findByIdAndUpdate(postId,{title:title,category:category,thumbnail:new_thumbnail,description:description},{new:true});
+        //new:true helps to return the result as the updated document...otherwise it just returns the document before updates
+        
+        if(!result){
+            return next(new HttpError("Failed to update this post",422));
+        }
+
+        res.json(result);
+        
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
 }
 
 //To delete an existing post
 // DELETE: api/posts/:id
 // PROTECTED
 const deletePost = async(req,res,next) =>{
-    res.json("Deleting post");
+    try{
+        const postId = req.params.id;
+        
+        if(postId.length != 24){
+            return next(new HttpError("Invalid post id",400));
+        }
+
+        const post = await Post.findById(postId);
+
+        if(!post){
+            return next(new HttpError("Post not found",404));
+        }
+
+        const postOwner = post.author;
+        const currUser = req.user.userId;
+    
+        //Authorization
+        if(postOwner != currUser){
+            return next(new HttpError("You are not authorized to delete this post",403));
+        }
+
+        const result = await Post.findByIdAndDelete(postId);
+        if(!result){
+            return next (new HttpError("Failed to Delete this post",422));
+        }
+
+        //decrement the user post-count
+        const updateUser = await User.findByIdAndUpdate(postOwner,{ $inc: { postCount: -1 } } );
+
+
+        //delete the thumbnail
+        const thumbnail = result.thumbnail;
+        if(thumbnail){
+            fs.unlink(path.join(__dirname,'..','uploads',thumbnail),(err)=>{
+                if(err){
+                    return next(new HttpError(err));
+                }
+            })
+        }
+        
+        res.json(`Post with id ${result._id} deleted successfully`);
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
 }
 
 module.exports = {getPost, getAllPost, getCategoryPost, getAuthorPost, createNewPost, editPost, deletePost};
