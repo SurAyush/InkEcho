@@ -141,7 +141,8 @@ export const post_categories = [
     "Parenting",
     "Sports & Fitness",
     "Politics & Society",
-    "Hobbies"
+    "Hobbies",
+    "Others"
 ];
 
 export const sample_edit = {

@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended:true}));
-app.use(cors({credentials:true, origin: 'http://localhost:5713'}));
+app.use(cors({credentials:true, origin: process.env.REACT_URL}));
 app.use(upload());
 app.use('/uploads',express.static(__dirname + '/uploads'));
 

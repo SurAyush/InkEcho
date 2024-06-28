@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import { RouterProvider } from'react-router-dom'
 import 'flowbite'
 import './index.css'
+import UserProvider from './context/UserContext'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import Error from './pages/Error'
@@ -18,26 +19,27 @@ import Logout from './pages/Logout'
 import Register from './pages/Register'
 import UserProfile from './pages/UserProfile'
 import PostDetails from './pages/PostDetails'
+import DeletePost from './pages/DeletePost'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <UserProvider> <Layout /> </UserProvider>,
     errorElement: <Error />,
     children:[
       {index: true, element: <Home />},
       {path:"register", element: <Register />},
       {path:"login", element: <Login />},
       {path:"logout", element: <Logout />},
-      {path:"profile/:id", element: <UserProfile />},
+      {path:"myprofile", element: <UserProfile />},
+      {path:"myposts", element:<Dashboard/>},
       {path:"authors", element: <Authors />},
-      {path:"create", element: <CreatePost />},
-      {path:"edit/:id", element: <EditPost />},
-      {path:"posts/:id", element: <PostDetails />},
       {path:"posts/authors/:id", element: <AuthorPosts />},
-      {path:"posts/categories/:category", element: <CategoryPosts />},
-      {path:"myposts/:id", element:<Dashboard/>},
-      {path:"myposts/:id/edit", element:<EditPost/>}
+      {path:"posts/category/:category", element: <CategoryPosts />},
+      {path:"posts/create", element: <CreatePost />},
+      {path:"posts/:id", element: <PostDetails />},
+      {path:"posts/:id/edit", element: <EditPost />},
+      {path:"posts/:id/delete", element: <DeletePost />},
     ]
   }
 ])

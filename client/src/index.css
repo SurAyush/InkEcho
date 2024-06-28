@@ -14,40 +14,46 @@
 
 .card{
     margin: 1.25rem;
-    padding: 1rem;
+    padding: 0.5rem;
     border: 0.075rem solid #ccc;
     border-radius: 0.75rem;
-    width: 25rem;
+    width: 19rem;
     font-weight: 400;
-    height: 37.5rem;
+    height: 28rem;
 }
 
 .card-img{
     width: 100%;
-    height: 18.75rem;
+    height: 12rem;
 }
 .card_image{
     width: 100%;
-    height: 18.75rem;
+    height: 12rem;
     border-radius: 1rem;
 }
 
 .card-title{
-    font-size: 2rem;
+    font-size: 1.25rem;
     font-weight: 700;
     margin: 0.75rem 0.125rem 0.25rem 0.125rem;
 }
 
 .card-cat{
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 300;
     margin: 0.25rem 0.125rem;
     opacity: 0.7;
 }
 
+.card-des{
+    font-size: 0.875rem;
+}
+
 .card-author{
-    margin: 0.75rem;
-    padding: 0.75rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    margin-left: 0rem;
+    padding-left: 0rem;
 }
 
 .author-img{
@@ -55,12 +61,17 @@
     height: 3rem;
     border-radius: 50%;
     display: inline-block;
-    margin-right: 1.25rem;
+    margin-right: 1rem;
+}
+
+.last-updated{
+    opacity: 0.7;
+    font-size: 0.75rem;
 }
 
 .post-page{
     width: 50%;
-    padding: 4rem;
+    padding: 2rem;
     margin: auto;
     text-align: center;
 }
@@ -69,7 +80,6 @@
     width: 100%;
     height: 25rem;
     margin: auto;
-    margin-top: 2rem;
     margin-bottom: 2rem;
     border-radius: 1rem;
 }
@@ -90,7 +100,7 @@
 .cont-div{
     font-size: 1.25rem;
     font-weight: 300;
-    margin-top: 5rem;
+    margin-top: 3rem;
     margin-bottom: 4rem;
     opacity: 0.8;
     line-height: 1.5;
@@ -138,6 +148,11 @@
     text-align: center;
     font-weight: 700;
     margin-top:1rem;
+    margin-bottom: 1rem;
+}
+
+.info{
+    opacity: 0.7;
     margin-bottom: 1rem;
 }
 
@@ -277,4 +292,33 @@
 
 .formbox button{
     width: 8rem;
+}
+
+.loader-div{
+    width: 25%;
+    margin: auto;
+    text-align: center;
+    margin-top:10vh;
+    margin-bottom: 40vh;
+}
+
+.loader-gif{
+    width: 50%;
+    height: 50%;
+    margin: auto;
+}
+
+.error-img-div{
+    width: 50%;
+    height: 50%;
+    margin: auto;
+}
+
+.error-img{
+    width: 100%;
+    height: 100%;
+}
+
+.go-home{
+    text-align: center;
 }

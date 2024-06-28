@@ -1,29 +1,120 @@
 import React from "react";
 import { sample_edit } from "../data.js";
-import {useState} from "react";
+import {useState, useEffect, useContext} from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import {quillModules,formats} from "../quill_config.js";
 import { post_categories } from "../data.js";
+import {userContext} from "../context/UserContext.jsx"
+import Loader from "../components/Loader.jsx";
+import ErrorAlert from "../components/ErrorAlert.jsx";
+import axios from "axios";
 
 const EditPost = () =>{
 
-    const [postInfo, setPostInfo] = useState(sample_edit);
-    //handle change of content on submit, simple paste the event (string) of ReactQuill to postInfo.content before submitting
+    //verify whether user is logged in or not
+    const {currUser} = useContext(userContext);
+    const navigate = useNavigate();
+    //execute this side-effect only for the first time the component is rendered
+    useEffect(()=>{
+        if(!currUser?.userId){
+            navigate("/login");
+        }
+    },[]);
+
+    const postId = useParams().id;
+    const [postInfo, setPostInfo] = useState();
+    const [postImage,setPostImage] = useState();
+    const [loaded,setLoaded] = useState(false);
+    const [err,setErr] = useState();
+
+    useEffect(()=>{
+        async function getData(){
+            try{
+                const response = await axios.get(`${import.meta.env.VITE_API_SERVER_URL}/posts/${postId}`);
+                const data = await response.data;
+                const author = data.author;
+                if(author != currUser?.userId) {
+                    navigate("/login");
+                }
+                setPostInfo(data);
+                setLoaded(true);
+                
+            }
+            catch(err){
+                console.error(err);
+            }
+        }
+
+        getData();
+    },[]);
+
 
     const handleChange = (event) =>{
         setPostInfo({...postInfo,[event.target.name]:event.target.value});
     };
 
-    const handleChange2 = (e) =>{
-        setPostInfo(...postInfo,{[e.target.name]:e.target.file[0]});
+    const handleImgChange = (event) =>{
+        const post_image = event.target.files[0];
+        setPostImage(post_image);
+        if(!post_image.type.startsWith('image/')){
+            alert('Please select an image file');
+        }
+    };
+
+    const handleTextChange = (event) =>{
+        setPostInfo({...postInfo,description:event});
+    }
+
+    const handleSubmit = (event) =>{
+        event.preventDefault();
+        async function postData(){
+
+            const formData = {
+                title: postInfo.title,
+                description: postInfo.description,
+                category: postInfo.category,
+                thumbnail: postImage,
+            }; //req-body
+
+            const config = {
+                headers:{
+                    Authorization:`Bearer ${currUser.token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+
+            try{
+                const response = await axios.patch(`${import.meta.env.VITE_API_SERVER_URL}/posts/${postId}`,formData,config);
+                const data = await response.data;
+                if(data){
+                    navigate(`/posts/${postId}`);
+                }
+            }
+            catch(err){
+                console.error(err);
+                if(err.response.data.message){
+                    setErr(err.response.data.message);
+                }
+            }
+        }
+        postData();
+
+    }
+
+    if(!loaded){
+        return(
+            <Loader />
+        )
     }
 
     return(
         <>
         <div className="title">Edit Post</div>
         <div className="formbox">
-            <form>
+            {err && <ErrorAlert error={err}/>}
+            <form onSubmit={handleSubmit}>
                 <div className="mb-8">
                     <label htmlFor="postTitle" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Post Title</label>
                     <input 
@@ -43,11 +134,9 @@ const EditPost = () =>{
                     <input
                     id="thumbnail"
                     name="thumbnail"
-                    value={postInfo.thumbnail}
-                    onChange={handleChange2}
+                    onChange={handleImgChange}
                     type="file"
                     accept=".jpg, .png, .jpeg"
-                    required
                     />
                 </div>
                 <div className="mb-8">
@@ -74,15 +163,16 @@ const EditPost = () =>{
                         formats={formats}
                         id="postcontent"
                         name="content"
-                        value={postInfo.content}
+                        value={postInfo.description}
+                        onChange={handleTextChange}
                         className="text-box-quill"
                     />
                 </div>
                 
                 <button 
-                    type="button" 
-                    class="text-white bg-gradient-to-r mt-6 from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" 
-                    onSubmit="">
+                    type="submit" 
+                    className="text-white bg-gradient-to-r mt-6 from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" 
+                    >
                         Edit Post
                 </button>
             </form>

@@ -83,21 +83,12 @@ const loginUser = async (req,res,next)=>{
     }
 };
 
-//Logout a logged in user
-//Protected
-// POST: /api/users/logout
-const logoutUser = (req,res,next)=>{
-    // req.headers.authorization = undefined;
-    // req.headers.Authorization = undefined;
-    // res.json("Logging out a user");
-};
-
 //Get all users
 //Unprotected
 // GET: /api/users/
 const getAllUsers = async (req,res,next)=>{
     try{
-        const users = await User.find({}).select('username');         //we will only extract username, following_count and post_count
+        const users = await User.find({}).select('username');  
         if (!users){
             return next(new HttpError("No users found",404));
         }
@@ -107,6 +98,23 @@ const getAllUsers = async (req,res,next)=>{
         return next(new HttpError(err));
     }
 };
+
+//Get all users that have posted
+//Unprotected
+// GET: /api/users/authors
+const getAllAuthors = async (req,res,next)=>{
+    try{
+        const users = await User.find({ postCount: { $gt: 0 } },'username avatar postCount').sort({postCount:-1});
+        if (!users){
+            return next(new HttpError("No users found",404));
+        }
+        res.json(users);
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
+};
+
 
 //Get user
 //Protected
@@ -125,6 +133,25 @@ const getUser = async (req,res,next)=>{
         return next(new HttpError(err));
     }
 };
+
+//Get user (just another version of getUser, but you can get any user basic details by ID)
+//UnProtected
+// GET: api/users/:id
+const getUserbyId = async (req,res,next)=>{
+    try{
+        const _id = req.params.id;
+        const user = await User.findById(_id).select('-password');  //ensures we are not extracting password from user info
+        if(!user){
+            return next(new HttpError("User not found",404));
+        }
+        res.json(user);
+    }
+    catch(err){
+        console.log(err);
+        return next(new HttpError(err));
+    }
+};
+
 
 //Update user-avatar
 //Protected
@@ -166,6 +193,7 @@ const updateUserAvatar = async(req,res,next)=>{
         });
     }
     catch(err){
+        console.log(err);
         return next(new HttpError(err));
     }
 };
@@ -174,12 +202,12 @@ const updateUserAvatar = async(req,res,next)=>{
 //Protected
 // PATCH: /api/users/edit-user
 const updateUserDetails = async (req,res,next)=>{
-    
+
     const {username,email,currentPassword,newPassword,confirmNewPassword} = req.body;
     const userId = req.user.userId;
     const user = await User.findById(userId);
-    if (!username && !email && !newPassword){
-        return next(new HttpError("Please provide required fields to change",422));
+    if (!username || !email || !currentPassword){
+        return next(new HttpError("Please provide all necessary fields",422));
     }
     if(!user){
         return next(new HttpError("User not found",404));
@@ -188,7 +216,6 @@ const updateUserDetails = async (req,res,next)=>{
     if (!isPasswordCorrect){
         return next(new HttpError("Invalid password",422));
     }
-    
     const updatedUser = new User(
         {
             username: user.username,
@@ -209,7 +236,6 @@ const updateUserDetails = async (req,res,next)=>{
         const salt = await bcrypt.genSalt(10);
         updatedUser.password = await bcrypt.hash(newPassword,salt);
     }
-
     //handling username change
     if(username){
         const doesUsernameExist = await User.findOne({username:username});
@@ -218,7 +244,6 @@ const updateUserDetails = async (req,res,next)=>{
         }
         updatedUser.username = username;
     }
-
     //handling email change
     if(email){
         const doesEmailExist = await User.findOne({email:email});
@@ -227,7 +252,6 @@ const updateUserDetails = async (req,res,next)=>{
         }
         updatedUser.email = email;
     }
-
     //updating in database
     const result = await User.findByIdAndUpdate(userId,{username:updatedUser.username, email:updatedUser.email, password:updatedUser.password},{new:true});
     
@@ -248,4 +272,4 @@ const deleteUser = (req,res,next)=>{
     res.send("Deleting a user");
 };
 
-module.exports = {registerUser, loginUser, logoutUser, getAllUsers, getUser, updateUserAvatar, updateUserDetails, deleteUser};
+module.exports = {registerUser, loginUser, getAllUsers, getUser,getUserbyId, updateUserAvatar, getAllAuthors, updateUserDetails, deleteUser};

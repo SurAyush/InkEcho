@@ -1,12 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import errorgif from "../assets/images/404_animation.gif"
 
 const Error = () =>{
     return(
-        <>
-        <p>Error</p>
-        <Link to="/">Go back to home</Link>
-        </>
+        <div>
+            <div className="error-img-div">
+                <img className="error-img" src={errorgif}/>
+            </div>
+            <div className="go-home">
+                <Link to="/">
+                    <button type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Go Back To Home</button>
+                </Link>
+            </div>
+        </div>
     )
 };
 

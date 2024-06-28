@@ -1,9 +1,13 @@
 import React from "react";
-import { useState } from "react";
-import {Link} from "react-router-dom";
+import ErrorAlert from "../components/ErrorAlert";
+import { useState, useEffect, useContext } from "react";
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
+import {userContext} from '../context/UserContext.jsx'
+
 
 const Register = () =>{
-
+    
     let [userInfo,setUserInfo] = useState({
         email:"",
         password:"",
@@ -11,9 +15,38 @@ const Register = () =>{
         username:"",
     });
 
+    let [error,setError] = useState("");
+
+    const {setCurrUser} = useContext(userContext);
+    const navigate = useNavigate();
+
     const handleChange = (event) =>{
         setUserInfo({...userInfo,[event.target.name]:event.target.value});
     };
+
+    //auto-login when the user registers through front-end
+    const handleSubmit = async (event) =>{
+        event.preventDefault();
+        try{
+            const response = await axios.post(`${import.meta.env.VITE_API_SERVER_URL}/users/register`,userInfo);
+            const newUser = await response.data;
+            console.log(newUser);
+            if(!newUser){
+                return setError("Failed To Register");
+            }
+
+            //login
+            const userInfoLogin = {username:userInfo.username, password:userInfo.password};
+            const responseLogin = await axios.post(`${import.meta.env.VITE_API_SERVER_URL}/users/login`,userInfoLogin);
+            const userdata = await responseLogin.data;
+            setCurrUser(userdata);
+            navigate("/");
+        }
+        catch(err){
+            setError(err.response.data.message);
+        }
+
+    }
 
     return(
         <>
@@ -21,7 +54,8 @@ const Register = () =>{
             Register
         </div>
         <div className="form-box">
-        <form action="#">
+        {error && <ErrorAlert error={error}/>}
+        <form onSubmit={handleSubmit} >
             <div className="mb-6">
             <label htmlFor="email" classNameName="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
             <input 

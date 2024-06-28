@@ -154,7 +154,7 @@ const editPost = async(req,res,next) =>{
     try{
         const postId = req.params.id;
         const {title,category,description} = req.body;
-        const thumbnail = req.files.thumbnail;
+        const thumbnail = req.files?.thumbnail || "";
         if(!title ||!description ||!category){
             return next(new HttpError("Please provide all the fields",422));
         }
