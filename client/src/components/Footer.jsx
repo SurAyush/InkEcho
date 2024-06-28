@@ -1,4 +1,8 @@
 import React from "react";
+import { FaGithub } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa6";
+
+
 
 const Footer = () =>{
     return(
@@ -9,16 +13,10 @@ const Footer = () =>{
     </span>
     <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
         <li>
-            <a href="#" className="hover:underline me-4 md:me-6">About</a>
+            <a href={import.meta.env.VITE_API_MY_LINKEDIN} className="icons"><FaLinkedin/></a>
         </li>
         <li>
-            <a href="#" className="hover:underline me-4 md:me-6">Privacy Policy</a>
-        </li>
-        <li>
-            <a href="#" className="hover:underline me-4 md:me-6">Licensing</a>
-        </li>
-        <li>
-            <a href="#" className="hover:underline">Contact</a>
+            <a href={import.meta.env.VITE_API_MY_GITHUB} className="icons"><FaGithub /></a>
         </li>
     </ul>
     </div>

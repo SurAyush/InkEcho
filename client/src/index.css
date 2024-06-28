@@ -6,6 +6,9 @@
     font-family: "Lobster Two", sans-serif;
     /* use better alternative fonts */
 }
+
+/* Home Page */
+
 .posts{
     display: flex;
     flex-wrap: wrap;
@@ -17,15 +20,16 @@
     padding: 0.5rem;
     border: 0.075rem solid #ccc;
     border-radius: 0.75rem;
-    width: 19rem;
+    width: 20rem;
     font-weight: 400;
-    height: 28rem;
+    height: 30rem;
 }
 
 .card-img{
     width: 100%;
     height: 12rem;
 }
+
 .card_image{
     width: 100%;
     height: 12rem;
@@ -69,19 +73,30 @@
     font-size: 0.75rem;
 }
 
+/* Post Details Page */
+
 .post-page{
-    width: 50%;
+    width: 70%;
     padding: 2rem;
     margin: auto;
     text-align: center;
 }
 
 .img-div{
-    width: 100%;
+    width: 70%;
     height: 25rem;
     margin: auto;
     margin-bottom: 2rem;
     border-radius: 1rem;
+}
+
+@media screen and (max-width:720px){
+    .post-page{
+        width: 95%;
+    }
+    .img-div{
+        width: 95%;
+    }
 }
 
 .img-blog{
@@ -134,6 +149,8 @@
     margin: 1.75rem 0.125rem 0.25rem 0.125rem;
 }
 
+/* FORMs */
+
 .form-box{
     width: 50%;
     margin: auto;
@@ -141,6 +158,12 @@
     margin-bottom: 2rem;
     border-radius: 1rem;
     padding: 2rem;
+}
+
+@media screen and (max-width:720px){
+    .form-box{
+        width: 90%;
+    }
 }
 
 .title{
@@ -155,6 +178,8 @@
     opacity: 0.7;
     margin-bottom: 1rem;
 }
+
+/* AUTHOR PAGE */
 
 .highlight-span{
     display: inline-block;
@@ -184,10 +209,19 @@
     text-align: center;
 }
 
+/* USER PROFILE */
+
 
 .profile{
     width:50%;
     margin:auto;
+}
+
+@media screen and (max-width:720px){
+    .profile{
+        width: 90%;
+    }
+    
 }
 
 .centre-btn-cont{
@@ -232,6 +266,8 @@
     top: 3px;
 }
 
+/* Dashboard */
+
 .dashboard{
     margin-top: 4rem;
     margin-bottom: 6rem;
@@ -263,6 +299,10 @@
     font-weight: 500;
 }
 
+.post-time-info{
+    opacity: 0.7;
+}
+
 .mypost-item-button-cont button{
     margin-right: 2rem;
     width:5rem;
@@ -270,6 +310,19 @@
     font-weight: 500;
 }
 
+@media screen and (max-width:1000px){
+    .post-time-info{
+        display: none;
+    }    
+}
+
+@media screen and (max-width:720px){
+    .mypost-item-button-cont button{
+        display: none;
+    }    
+}
+
+/* EDIT & CREATE POST */
 
 .formbox{
     width: 80%;
@@ -280,6 +333,13 @@
     padding: 2rem;
 }
 
+@media screen and (max-width:720px){
+    .formbox{
+        width: 95%;
+    }
+    
+}
+
 .formbox label{
     font-size: 1.5rem;
     font-weight: 500;
@@ -288,11 +348,14 @@
 
 .text-box-quill{
     height: 18rem !important;
+    margin-bottom: 5rem;
 }
 
 .formbox button{
     width: 8rem;
 }
+
+/* Loader GIF */
 
 .loader-div{
     width: 25%;
@@ -308,6 +371,8 @@
     margin: auto;
 }
 
+/* 404 Page*/
+
 .error-img-div{
     width: 50%;
     height: 50%;
@@ -319,6 +384,37 @@
     height: 100%;
 }
 
+@media screen and (max-width:720px){
+    .error-img-div{
+        width: 95%;
+        margin-top: 10rem;
+        margin-bottom: 2rem;
+    }
+    
+}
+
 .go-home{
     text-align: center;
+}
+
+/* FOOTER */
+
+.icons{
+    display: inline-block;
+    margin: 0.5rem !important;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.icons svg{
+    width: 85%;
+    height: 85%;
+    opacity: 0.6;
+}
+
+.icons svg:hover{
+    transition: all 0.3s;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
 }
