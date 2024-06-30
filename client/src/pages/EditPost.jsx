@@ -1,5 +1,4 @@
 import React from "react";
-import { sample_edit } from "../data.js";
 import {useState, useEffect, useContext} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
@@ -64,7 +63,7 @@ const EditPost = () =>{
     };
 
     const handleTextChange = (event) =>{
-        setPostInfo({...postInfo,description:event});
+        setPostInfo({...postInfo,content:event});
     }
 
     const handleSubmit = (event) =>{
@@ -140,6 +139,18 @@ const EditPost = () =>{
                     />
                 </div>
                 <div className="mb-8">
+                    <label htmlFor="postTitle" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Post Title</label>
+                    <input 
+                        type="text" 
+                        name="description" 
+                        id="postDescription"
+                        onChange = {handleChange}
+                        value={postInfo.description}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                        required
+                    />
+                </div>
+                <div className="mb-8">
                     <label htmlFor="category">Category</label>
                     <select 
                     id="category" 
@@ -163,7 +174,7 @@ const EditPost = () =>{
                         formats={formats}
                         id="postcontent"
                         name="content"
-                        value={postInfo.description}
+                        value={postInfo.content}
                         onChange={handleTextChange}
                         className="text-box-quill"
                     />

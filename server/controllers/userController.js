@@ -1,4 +1,5 @@
 const User = require('../models/userModel.js');
+const Post = require('../models/postModel.js');
 const HttpError = require('../models/errorModel.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -104,7 +105,7 @@ const getAllUsers = async (req,res,next)=>{
 // GET: /api/users/authors
 const getAllAuthors = async (req,res,next)=>{
     try{
-        const users = await User.find({ postCount: { $gt: 0 } },'username avatar postCount').sort({postCount:-1});
+        const users = await User.find({ postCount: { $gt: 0 } },'username avatar postCount followerCount').sort({postCount:-1});
         if (!users){
             return next(new HttpError("No users found",404));
         }
@@ -266,10 +267,138 @@ const updateUserDetails = async (req,res,next)=>{
 
 //Delete user
 //Protected
-// DELETE: /api/users/deleteaccount
-const deleteUser = (req,res,next)=>{
-    //Cascading delete of posts
-    res.send("Deleting a user");
+// DELETE: /api/users/delete-account
+const deleteUser = async (req,res,next)=>{
+    try{
+        const userId = req.user.userId;
+        const user = await User.findById(userId);
+        const {password} = req.body;
+        const isPasswordCorrect = await bcrypt.compare(password,user.password);
+        if(!isPasswordCorrect){
+            return next(new HttpError("Invalid password",422));
+        }
+
+        //Cascading delete of posts
+        let postId;
+        for (postId of user.posts){
+            const post = await Post.findById(postId);
+            const thumbnail = post.thumbnail;
+            if(thumbnail){
+                fs.unlink(path.join(__dirname,'..','uploads',thumbnail),(err)=>{
+                    if(err){
+                        return next(new HttpError(err));
+                    }
+                })
+            }
+            await Post.findByIdAndDelete(postId);
+        }
+
+        //Delete avatar
+        if(user.avatar){
+            fs.unlink(path.join(__dirname,'..','uploads',user.avatar),(err)=>{
+                if(err){
+                    return next(new HttpError(err));
+                }
+            })
+        }
+
+        //Iterate followers, and remove id from their following list
+        let followerId;
+        for (followerId of user.follower){
+            const follower = await User.findByIdAndUpdate(followerId,{ $pull: { following: userId }},{new: true});
+            follower.followingCount = follower.following.length;
+            await follower.save();
+        }
+
+        //Iterate following, and remove id from their follower list and reduce their follower count
+        let followingId;
+        for (followingId of user.following){
+            const following = await User.findByIdAndUpdate(followingId,{ $pull: { follower: userId }},{new: true});
+            following.followerCount = following.follower.length;
+            await following.save();
+        }
+
+        await User.findByIdAndDelete(userId);
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
+    res.json("User Deleted Successfully");
 };
 
-module.exports = {registerUser, loginUser, getAllUsers, getUser,getUserbyId, updateUserAvatar, getAllAuthors, updateUserDetails, deleteUser};
+//Follow user
+//Protected
+//POST: api/users/follow/:id
+const followUser = async (req,res,next)=>{
+    try{
+        const user = await User.findById(req.user.userId);
+        const followedUserId = req.params.id;
+        const followedUser = await User.findById(followedUserId);
+        if(followedUser){
+        if(!user.following || !user.following.includes(followedUserId)){
+            user.following.push(followedUserId);
+            await user.save();
+            followedUser.followerCount = (followedUser?.followerCount || 0) + 1;
+            followedUser.follower.push(req.user.userId);
+            await followedUser.save();
+            res.json("User followed successfully");
+        }
+        else{
+            return next(new HttpError("Already following this user",409));
+        }
+        }
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
+}
+
+//Follow user
+//Protected
+//POST: api/users/follow/:id
+const unFollowUser = async (req,res,next)=>{
+    try{
+        const user = await User.findById(req.user.userId);
+        const followedUserId = req.params.id;
+        const followedUser = await User.findById(followedUserId);
+        if(followedUser){
+        if(user.following && user.following.includes(followedUserId)){
+            user.following = user.following.filter(element => element.toString() !== followedUserId);
+            await user.save();
+            followedUser.followerCount = (followedUser?.followerCount || 0) - 1;
+            followUser.follower = followUser.follower.filter(element => element.toString() !== req.user.userId);
+            await followedUser.save();
+            res.json("User unfollowed successfully");
+        }
+        else{
+            return next(new HttpError("Not following this user",409));
+        }
+        }
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
+}
+
+//To get all users following
+//Protected
+//GET: api/users/following-authors
+const getFollowing = async (req, res, next) =>{
+    try{
+        const userId = req.user.userId;
+        const user = await User.findById(userId);
+        const followedUserIds = user.following;
+        const followedUsers = await User.find({_id:{$in:followedUserIds}},'username avatar postCount followerCount');
+        if(followedUsers){
+            res.json(followedUsers);
+        }
+        else{
+            res.json("No followers found");
+        }
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
+}
+
+module.exports = {registerUser, loginUser, getAllUsers, getUser,getUserbyId, updateUserAvatar, getAllAuthors, updateUserDetails, deleteUser, followUser, unFollowUser, getFollowing};

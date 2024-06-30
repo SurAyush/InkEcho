@@ -7,6 +7,7 @@ const postSchema = new Schema({
     category: {type: String, enum:valid_categories,
         message:"{Category Value is not supported}", required: true
     },
+    content: {type: String, required: true},
     author: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     thumbnail: {type: String}
 },{timestamps: true});

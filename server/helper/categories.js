@@ -1,3 +1,19 @@
-const valid_categories = ["Technology","Health & Wellness","Travel","Lifestyle","Finance","Food & Drink","Education","Entertainment","Science & Nature","DIY & Crafts","Automotive","Parenting","Sports & Fitness","Politics & Society","Hobbies","Others"];
-
+const valid_categories = [
+    "Technology",
+    "Health",
+    "Travel",
+    "Lifestyle",
+    "Finance",
+    "Food",
+    "Education",
+    "Entertainment",
+    "Science",
+    "Crafts",
+    "Automotive",
+    "Parenting",
+    "Sports_Fitness",
+    "Society",
+    "Hobbies",
+    "Others"
+];
 module.exports = valid_categories;

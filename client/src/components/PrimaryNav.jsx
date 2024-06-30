@@ -4,17 +4,18 @@ import {Link} from "react-router-dom";
 import { userContext } from "../context/UserContext";
 import NavList from "./NavList";
 import NavListLoggedIn from "./NavListLoggedIn";
+import logo from "../assets/images/logo.png"
 
 function PrimaryNav() {
   const { currUser } = useContext(userContext);
 
   return (
     <> 
-    <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+    <nav id="navbar" className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
     <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <Link to={`/`}>
     <p className="flex items-center space-x-3 rtl:space-x-reverse">
-        <img src="https://cdn-icons-png.flaticon.com/512/4597/4597267.png" className="h-8" alt="InkEcho Logo" />
+        <img src={logo} className="h-8" alt="InkEcho Logo" />
         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">InkEcho</span>
     </p>
     </Link>

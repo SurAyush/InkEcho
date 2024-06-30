@@ -59,6 +59,7 @@ const PostDetails = () =>{
             <div className="title-div">
                 {post.title}
             </div>
+            <div className="post-desc">{post.description}</div>
             
             {isAuthor && <div className="button-line">
                 <Link to={`edit`}>
@@ -71,7 +72,7 @@ const PostDetails = () =>{
 
             <div
                 className="cont-div"
-                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.description) }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
             />
             <div className="line"></div>
             <LastUpdated updatedAt={post.updatedAt} prefix={"Created"}/>

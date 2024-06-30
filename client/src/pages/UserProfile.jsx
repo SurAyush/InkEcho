@@ -104,12 +104,41 @@ const UserProfile = () =>{
                 const response2 = await axios.patch(`${import.meta.env.VITE_API_SERVER_URL}/users/change-avatar`,updateAvatar,config);
                 const data2 = await response2.data;
                 if(data2 && !profile.password){
-                    setSuccessmsg("Profile changed successfully");
+                    setSuccessmsg("Avatar changed successfully");
                 }
             }
         }
         catch(err){
             setError(err.response.data.message);
+        }
+    }
+
+    const handleDelete = async (event) => {
+        try{
+            const inp = prompt(`Enter your password to delete your account`);
+            const config={
+                headers:{
+                    Authorization:`Bearer ${currUser.token}`
+                },
+                data:{
+                    password:inp
+                }
+            }
+            console.log(config);
+            const response = await axios.delete(`${import.meta.env.VITE_API_SERVER_URL}/users/delete-account/`,config);
+            const response_data = await response.data;
+            if(response_data){
+                navigate("/logout");
+            }
+            else{
+                setError("User Deletion Failed! Please try again.");
+            }
+        }
+        catch(err){
+            console.error(err);
+            if(err.response.data.message){
+                setError(err.response.data.message);
+            }
         }
     }
 
@@ -208,6 +237,7 @@ const UserProfile = () =>{
                     Save Changes
             </button>
             </form>
+            <button onClick={handleDelete} id="delbtn" type="button" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Delete My Account</button>
         </div>
     )
 };

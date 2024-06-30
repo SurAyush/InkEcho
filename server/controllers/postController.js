@@ -33,7 +33,7 @@ const getPost = async(req,res,next) =>{
 // UNPROTECTED
 const getAllPost = async(req,res,next) =>{
     try{
-        const posts = await Post.find({}).sort({updatedAt:-1});         //sort by updatedAt (-1 means descending order)
+        const posts = await Post.find({}).select('-content').sort({updatedAt:-1});         //sort by updatedAt (-1 means descending order)
         if(!posts){
             return next(new HttpError("No posts found",404));
         }
@@ -50,7 +50,7 @@ const getAllPost = async(req,res,next) =>{
 const getCategoryPost = async(req,res,next) =>{
     try{
         const {category} = req.params;
-        const catPosts = await Post.find({category:category}).sort({updatedAt:-1});
+        const catPosts = await Post.find({category:category}).select('-content').sort({updatedAt:-1});
         if(!catPosts || catPosts.length==0){
             res.json("No posts found in this category");        //shouldn't be an error
         }
@@ -70,7 +70,7 @@ const getAuthorPost = async(req,res,next) =>{
         if(authorId.length!=24){
             return next(new HttpError("Invalid author id",400));
         }
-        const authorPosts = await Post.find({author:authorId}).sort({updatedAt:-1});
+        const authorPosts = await Post.find({author:authorId}).select('-content').sort({updatedAt:-1});
         if(!authorPosts || authorPosts.length==0){
             res.json("No posts found by this author");        //shouldn't be an error
         }
@@ -86,14 +86,13 @@ const getAuthorPost = async(req,res,next) =>{
 // PROTECTED
 const createNewPost = async(req,res,next) =>{
     try{
-        const {title,description,category} = req.body;
+        const {title,description,category,content} = req.body;
         const thumbnail = req.files.thumbnail;
-        if(!title || !description || !category){
+        if(!title || !description || !category || !content || !thumbnail){
             return next(new HttpError("Please provide all the fields",422));
         }
         const userId = req.user.userId;
         const user = await User.findById(userId);
-        
         if(!user){
             return next(new HttpError("Post author not found",404));
         }
@@ -118,6 +117,7 @@ const createNewPost = async(req,res,next) =>{
             category:category,
             thumbnail:uniquefilename,
             description:description,
+            content:content,
             author:user._id
         });
 
@@ -127,14 +127,9 @@ const createNewPost = async(req,res,next) =>{
             return next(new HttpError("Post creation failed",422));
         }
 
-        let updatedUser;
-        if(user.postCount){
-            updatedUser = await User.findByIdAndUpdate(user._id,{postCount:user.postCount+1});
-        }
-        else{
-            updatedUser = await User.findByIdAndUpdate(user._id,{postCount:1});
-        }
-
+        user.postCount = (user?.postCount || 0) + 1;
+        user.posts.push(result._id);
+        const updatedUser = await user.save();
         if(!updatedUser){
             return next(new HttpError("Post author updation failed",422));
         }
@@ -153,14 +148,16 @@ const createNewPost = async(req,res,next) =>{
 const editPost = async(req,res,next) =>{
     try{
         const postId = req.params.id;
-        const {title,category,description} = req.body;
+        const {title,category,description, content} = req.body;
         const thumbnail = req.files?.thumbnail || "";
-        if(!title ||!description ||!category){
+        if(!title ||!description ||!category || !content){
             return next(new HttpError("Please provide all the fields",422));
         }
         const currUserId = req.user.userId;
         const post = await Post.findById(postId);
-
+        if(!post){
+            return next(new HttpError("Post not found",404));
+        }
         //Authorization
         if(currUserId != post.author){
             return next(new HttpError("You are not authorized to edit this post",403));
@@ -202,7 +199,7 @@ const editPost = async(req,res,next) =>{
         }
         
         //updating post
-        const result  = await Post.findByIdAndUpdate(postId,{title:title,category:category,thumbnail:new_thumbnail,description:description},{new:true});
+        const result  = await Post.findByIdAndUpdate(postId,{title:title,category:category,thumbnail:new_thumbnail,description:description, content: content},{new:true});
         //new:true helps to return the result as the updated document...otherwise it just returns the document before updates
         
         if(!result){
@@ -248,8 +245,11 @@ const deletePost = async(req,res,next) =>{
         }
 
         //decrement the user post-count
-        const updateUser = await User.findByIdAndUpdate(postOwner,{ $inc: { postCount: -1 } } );
-
+        const user = await User.findById(postOwner);
+        user.postCount = user.postCount - 1;
+        user.posts = user.posts.filter(el => el.toString() != postId);
+        
+        const updated = await user.save();
 
         //delete the thumbnail
         const thumbnail = result.thumbnail;
@@ -268,4 +268,27 @@ const deletePost = async(req,res,next) =>{
     }
 }
 
-module.exports = {getPost, getAllPost, getCategoryPost, getAuthorPost, createNewPost, editPost, deletePost};
+//To get all posts of a user following
+//Protected
+//GET: api/posts/following-posts
+const getFollowingPosts = async (req, res,next) =>{
+    try{
+        const userId = req.user.userId;
+        const user = await User.findById(userId);
+        const followedUserIds = user.following;
+        const posts = await Post.find({author:{$in:followedUserIds}}).select('-content');
+        if(posts){
+            res.json(posts);
+        }
+        else{
+            res.json("No posts found");
+        }
+    }
+    catch(err){
+        return next(new HttpError(err));
+    }
+
+}
+
+
+module.exports = {getPost, getAllPost, getCategoryPost, getAuthorPost, createNewPost, editPost, deletePost, getFollowingPosts};

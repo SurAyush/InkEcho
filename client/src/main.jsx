@@ -20,6 +20,8 @@ import Register from './pages/Register'
 import UserProfile from './pages/UserProfile'
 import PostDetails from './pages/PostDetails'
 import DeletePost from './pages/DeletePost'
+import FollowingPosts from './pages/FollowingPosts'
+import Followings from './pages/Followings'
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,8 @@ const router = createBrowserRouter([
       {path:"myprofile", element: <UserProfile />},
       {path:"myposts", element:<Dashboard/>},
       {path:"authors", element: <Authors />},
+      {path:"authors/following", element: <Followings />},
+      {path:"posts/following-posts", element: <FollowingPosts />},
       {path:"posts/authors/:id", element: <AuthorPosts />},
       {path:"posts/category/:category", element: <CategoryPosts />},
       {path:"posts/create", element: <CreatePost />},

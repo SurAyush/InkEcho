@@ -5,6 +5,22 @@
 *{
     font-family: "Lobster Two", sans-serif;
     /* use better alternative fonts */
+    background-color: #faf9f6;
+}
+
+#navbar{
+    background-color: #faf9f6;
+    position: sticky;
+    top:0;
+    border-bottom: 0.1rem solid #ccc;
+}
+
+ul{
+    background-color: #faf9f6 !important;
+}
+
+#footer{
+    background-color: #faf9f6;
 }
 
 /* Home Page */
@@ -80,6 +96,11 @@
     padding: 2rem;
     margin: auto;
     text-align: center;
+}
+
+.post-desc{
+    margin-bottom: 2rem;
+    font-size: 1.25rem;
 }
 
 .img-div{
@@ -226,6 +247,7 @@
 
 .centre-btn-cont{
     text-align: center;
+    margin-top: 2rem;
 }
 
 .profile-img-cont{
@@ -265,6 +287,15 @@
     position: relative;
     top: 3px;
 }
+
+#delbtn{
+    display: inline-block;
+    margin: auto;
+    margin-top: 5rem;
+    width: 95%;
+}
+
+
 
 /* Dashboard */
 
@@ -332,6 +363,7 @@
     border-radius: 1rem;
     padding: 2rem;
 }
+
 
 @media screen and (max-width:720px){
     .formbox{
@@ -417,4 +449,27 @@
     width: 100%;
     height: 100%;
     opacity: 1;
+}
+
+/* Category Bar*/
+
+.cat{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+    margin-top: 14rem;
+    margin-bottom: 1rem;
+    background-color: #696969;
+}
+.cat-item{
+    margin: 0.5rem;
+    padding: 0.5rem 1rem 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #faf9f6;
+    font-size: 1.25rem;
+    font-weight: 500;
+    cursor: pointer;
 }
