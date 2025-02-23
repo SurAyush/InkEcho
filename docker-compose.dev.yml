@@ -4,7 +4,7 @@ services:
   api:
     build:
       context: ./server
-      dockerfile: Dockerfile
+      target: development
     restart: unless-stopped          # keeps running(even if say machine restarted) unless explicitly stopped 
     env_file: ./server/.env
     volumes:
@@ -18,7 +18,9 @@ services:
   frontend:
     build:
       context: ./client
-      dockerfile: Dockerfile
+      target: development
+      args:
+        VITE_API_URL: https://api.inkecho.localhost
     restart: unless-stopped
     env_file: ./client/.env
     volumes:
@@ -38,7 +40,7 @@ services:
       - 80:80          # http
       - 443:443        # https
     volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile        # bind mount - any changes to Caddyfile will reflect in /etc/caddy/Caddyfile
+      - ./caddy/Caddyfile.dev:/etc/caddy/Caddyfile        # bind mount - any changes to Caddyfile will reflect in /etc/caddy/Caddyfile
       - caddy_data:/data                              # named volume (creates a named volume caddy_data and mounts it to /data in conatiner ) - persists data (certificates) even if container is removed
       - caddy_config:/config                          # named volume - persists config even if container is removed
     networks:
