@@ -18,7 +18,6 @@ const FollowButton = ({authorId}) => {
           }
         }   //req headers
 
-        console.log(config);
         const response = await axios.post(`${import.meta.env.VITE_API_SERVER_URL}/users/follow/${authorId}`,{},config);
         const data = await response.json();
         if(data){

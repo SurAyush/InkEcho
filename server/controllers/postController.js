@@ -167,7 +167,6 @@ const editPost = async(req,res,next) =>{
         if(!valid_categories.includes(category)){
             return next(new HttpError("Invalid category",400));
         }
-
         let new_thumbnail = post.thumbnail;
         if(thumbnail){
             
@@ -176,7 +175,6 @@ const editPost = async(req,res,next) =>{
             {
                 return next(new HttpError("File size too large",422));
             }
-
             //remove previous thumbnail
             if(post.thumbnail){
                 fs.unlink(path.join(__dirname,'..','uploads',post.thumbnail),(err)=>{
@@ -187,6 +185,7 @@ const editPost = async(req,res,next) =>{
             }
 
             //save new thumbnail
+            // setup upload file here
             const filename = thumbnail.name;
             const splittedfilename = filename.split('.');
             const uniquefilename = splittedfilename[0]+"-"+uuid() + "." + splittedfilename[splittedfilename.length - 1];

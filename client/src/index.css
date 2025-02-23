@@ -2,36 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-    font-family: "Lobster Two", sans-serif;
-    /* use better alternative fonts */
+* {
+    font-family: "Playfair", serif;
+    font-size: 1rem;
     background-color: #faf9f6;
 }
 
-#navbar{
+#navbar {
     background-color: #faf9f6;
     position: sticky;
-    top:0;
+    top: 0;
     border-bottom: 0.1rem solid #ccc;
 }
 
-ul{
+ul {
     background-color: #faf9f6 !important;
 }
 
-#footer{
+#footer {
     background-color: #faf9f6;
+}
+
+a{
+    cursor: pointer;
 }
 
 /* Home Page */
 
-.posts{
+.posts {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.card{
+.card {
     margin: 1.25rem;
     padding: 0.5rem;
     border: 0.075rem solid #ccc;
@@ -41,42 +45,42 @@ ul{
     height: 30rem;
 }
 
-.card-img{
+.card-img {
     width: 100%;
     height: 12rem;
 }
 
-.card_image{
+.card_image {
     width: 100%;
     height: 12rem;
     border-radius: 1rem;
 }
 
-.card-title{
+.card-title {
     font-size: 1.25rem;
     font-weight: 700;
     margin: 0.75rem 0.125rem 0.25rem 0.125rem;
 }
 
-.card-cat{
+.card-cat {
     font-size: 1rem;
     font-weight: 300;
     margin: 0.25rem 0.125rem;
     opacity: 0.7;
 }
 
-.card-des{
+.card-des {
     font-size: 0.875rem;
 }
 
-.card-author{
+.card-author {
     margin: 0.5rem;
     padding: 0.5rem;
     margin-left: 0rem;
     padding-left: 0rem;
 }
 
-.author-img{
+.author-img {
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
@@ -84,26 +88,26 @@ ul{
     margin-right: 1rem;
 }
 
-.last-updated{
+.last-updated {
     opacity: 0.7;
     font-size: 0.75rem;
 }
 
 /* Post Details Page */
 
-.post-page{
+.post-page {
     width: 70%;
     padding: 2rem;
     margin: auto;
     text-align: center;
 }
 
-.post-desc{
+.post-desc {
     margin-bottom: 2rem;
     font-size: 1.25rem;
 }
 
-.img-div{
+.img-div {
     width: 70%;
     height: 25rem;
     margin: auto;
@@ -111,29 +115,30 @@ ul{
     border-radius: 1rem;
 }
 
-@media screen and (max-width:720px){
-    .post-page{
+@media screen and (max-width:720px) {
+    .post-page {
         width: 95%;
     }
-    .img-div{
+
+    .img-div {
         width: 95%;
     }
 }
 
-.img-blog{
+.img-blog {
     width: 100%;
     height: 25rem;
     border-radius: 1rem;
 }
 
-.title-div{
+.title-div {
     font-size: 2.5rem;
     font-weight: 700;
-    margin-top:1rem;
+    margin-top: 1rem;
     margin-bottom: 1rem;
 }
 
-.cont-div{
+.cont-div {
     font-size: 1.25rem;
     font-weight: 300;
     margin-top: 3rem;
@@ -142,13 +147,13 @@ ul{
     line-height: 1.5;
 }
 
-.author-div{
+.author-div {
     margin-top: 5rem;
     margin-bottom: 5rem;
     text-align: start;
 }
 
-.author-full-img{
+.author-full-img {
     width: 8rem;
     height: 8rem;
     border-radius: 50%;
@@ -156,7 +161,7 @@ ul{
     margin-right: 1.25rem;
 }
 
-.line{
+.line {
     width: 80%;
     margin: auto;
     margin-top: 7rem;
@@ -164,7 +169,7 @@ ul{
     border: 0.1rem solid grey;
 }
 
-.author-name{
+.author-name {
     font-size: 2rem;
     font-weight: 700;
     margin: 1.75rem 0.125rem 0.25rem 0.125rem;
@@ -172,7 +177,7 @@ ul{
 
 /* FORMs */
 
-.form-box{
+.form-box {
     width: 50%;
     margin: auto;
     margin-top: 2rem;
@@ -181,28 +186,28 @@ ul{
     padding: 2rem;
 }
 
-@media screen and (max-width:720px){
-    .form-box{
+@media screen and (max-width:720px) {
+    .form-box {
         width: 90%;
     }
 }
 
-.title{
+.title {
     font-size: 3rem;
     text-align: center;
     font-weight: 700;
-    margin-top:1rem;
+    margin-top: 1rem;
     margin-bottom: 1rem;
 }
 
-.info{
+.info {
     opacity: 0.7;
     margin-bottom: 1rem;
 }
 
 /* AUTHOR PAGE */
 
-.highlight-span{
+.highlight-span {
     display: inline-block;
     margin-top: 1.5rem;
     font-size: 1rem;
@@ -211,19 +216,19 @@ ul{
     margin-bottom: 4rem;
 }
 
-.authors{
+.authors {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 8rem;
 }
 
-.author-card{
+.author-card {
     margin: 1rem;
     width: 18rem;
 }
 
-.no-card{
+.no-card {
     margin-top: 3rem;
     margin-bottom: 8rem;
     font-size: 2rem;
@@ -233,62 +238,62 @@ ul{
 /* USER PROFILE */
 
 
-.profile{
-    width:50%;
-    margin:auto;
+.profile {
+    width: 50%;
+    margin: auto;
 }
 
-@media screen and (max-width:720px){
-    .profile{
+@media screen and (max-width:720px) {
+    .profile {
         width: 90%;
     }
-    
+
 }
 
-.centre-btn-cont{
+.centre-btn-cont {
     text-align: center;
     margin-top: 2rem;
 }
 
-.profile-img-cont{
+.profile-img-cont {
     width: 10rem;
-    height:10rem;
+    height: 10rem;
     border: 0.4rem solid gray;
     border-radius: 50%;
-    margin:auto;
+    margin: auto;
     margin-top: 2rem;
     margin-bottom: 2rem;
     position: relative;
 }
 
-.profile-img{
+.profile-img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
 }
 
-.edit-button{
-    width:2rem;
-    height:2rem;
+.edit-button {
+    width: 2rem;
+    height: 2rem;
     background-color: white;
     position: absolute;
-    top:7.25rem;
+    top: 7.25rem;
     left: 6.5rem;
     border: 0.25rem solid gray;
     border-radius: 50%;
-    padding:1px;
+    padding: 1px;
     cursor: pointer;
 }
 
-.edit-icon{
-    width:80%;
-    height:80%;
+.edit-icon {
+    width: 80%;
+    height: 80%;
     margin: auto;
     position: relative;
     top: 3px;
 }
 
-#delbtn{
+#delbtn {
     display: inline-block;
     margin: auto;
     margin-top: 5rem;
@@ -299,13 +304,13 @@ ul{
 
 /* Dashboard */
 
-.dashboard{
+.dashboard {
     margin-top: 4rem;
     margin-bottom: 6rem;
 }
 
-.mypostitem{
-    width:90%;
+.mypostitem {
+    width: 90%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -317,7 +322,7 @@ ul{
     background-color: azure;
 }
 
-.mypost-item-img{
+.mypost-item-img {
     width: 5rem;
     height: 5rem;
     margin: 0.5rem;
@@ -325,37 +330,37 @@ ul{
     border-radius: 1.25rem;
 }
 
-.mypost-item-title{
+.mypost-item-title {
     font-size: 1.5rem;
     font-weight: 500;
 }
 
-.post-time-info{
+.post-time-info {
     opacity: 0.7;
 }
 
-.mypost-item-button-cont button{
+.mypost-item-button-cont button {
     margin-right: 2rem;
-    width:5rem;
+    width: 5rem;
     font-size: 1.125rem;
     font-weight: 500;
 }
 
-@media screen and (max-width:1000px){
-    .post-time-info{
+@media screen and (max-width:1000px) {
+    .post-time-info {
         display: none;
-    }    
+    }
 }
 
-@media screen and (max-width:720px){
-    .mypost-item-button-cont button{
+@media screen and (max-width:720px) {
+    .mypost-item-button-cont button {
         display: none;
-    }    
+    }
 }
 
 /* EDIT & CREATE POST */
 
-.formbox{
+.formbox {
     width: 80%;
     margin: auto;
     margin-top: 2rem;
@@ -365,39 +370,39 @@ ul{
 }
 
 
-@media screen and (max-width:720px){
-    .formbox{
+@media screen and (max-width:720px) {
+    .formbox {
         width: 95%;
     }
-    
+
 }
 
-.formbox label{
+.formbox label {
     font-size: 1.5rem;
     font-weight: 500;
     margin-bottom: 1rem;
 }
 
-.text-box-quill{
+.text-box-quill {
     height: 18rem !important;
     margin-bottom: 5rem;
 }
 
-.formbox button{
+.formbox button {
     width: 8rem;
 }
 
 /* Loader GIF */
 
-.loader-div{
+.loader-div {
     width: 25%;
     margin: auto;
     text-align: center;
-    margin-top:10vh;
+    margin-top: 10vh;
     margin-bottom: 40vh;
 }
 
-.loader-gif{
+.loader-gif {
     width: 50%;
     height: 50%;
     margin: auto;
@@ -405,71 +410,137 @@ ul{
 
 /* 404 Page*/
 
-.error-img-div{
+.error-img-div {
     width: 50%;
     height: 50%;
     margin: auto;
 }
 
-.error-img{
+.error-img {
     width: 100%;
     height: 100%;
 }
 
-@media screen and (max-width:720px){
-    .error-img-div{
+@media screen and (max-width:720px) {
+    .error-img-div {
         width: 95%;
         margin-top: 10rem;
         margin-bottom: 2rem;
     }
-    
+
 }
 
-.go-home{
+.go-home {
     text-align: center;
+}
+
+#navbar{
+    position: sticky;
+    top: 0;
+    border-bottom: 0.1rem solid #ccc;
+    z-index: 1000;
+    opacity: 1;
 }
 
 /* FOOTER */
 
-.icons{
+#footer {
+    position: relative;
+    bottom: -20rem;
+}
+
+.icons {
     display: inline-block;
     margin: 0.5rem !important;
     width: 1.5rem;
     height: 1.5rem;
 }
 
-.icons svg{
+.icons svg {
     width: 85%;
     height: 85%;
     opacity: 0.6;
 }
 
-.icons svg:hover{
+.icons svg:hover {
     transition: all 0.3s;
     width: 100%;
     height: 100%;
     opacity: 1;
 }
 
-/* Category Bar*/
+/* Blog Post */
 
-.cat{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    padding: 1rem;
-    margin-top: 14rem;
-    margin-bottom: 1rem;
-    background-color: #696969;
-}
-.cat-item{
-    margin: 0.5rem;
-    padding: 0.5rem 1rem 0.5rem;
-    border-radius: 0.5rem;
-    background-color: #faf9f6;
+.cont-div {
     font-size: 1.25rem;
+    line-height: 1.6;
+    color: black;
+    text-align: left;
     font-weight: 500;
-    cursor: pointer;
+}
+
+.cont-div :where(h1, h2, h3, h4, h5, h6) {
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.cont-div :where(h1) {
+    font-size: 2.5rem;
+}
+
+.cont-div :where(h2) {
+    font-size: 2.25rem;
+}
+
+.cont-div :where(h3) {
+    font-size: 2rem;
+}
+
+.cont-div :where(h4) {
+    font-size: 1.875rem;
+}
+
+.cont-div :where(h5) {
+    font-size: 1.75rem;
+}
+
+.cont-div :where(p) {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.cont-div :where(a) {
+    color: #007bff;
+    /* Bootstrap blue */
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+.cont-div :where(a:hover) {
+    text-decoration: underline;
+}
+
+.cont-div :where(strong) {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.cont-div :where(ul) {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.cont-div :where(ol) {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.cont-div :where(li) {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
 }

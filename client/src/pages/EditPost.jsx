@@ -75,6 +75,7 @@ const EditPost = () =>{
                 description: postInfo.description,
                 category: postInfo.category,
                 thumbnail: postImage,
+                content: postInfo.content
             }; //req-body
 
             const config = {
@@ -85,7 +86,13 @@ const EditPost = () =>{
             }
 
             try{
-                const response = await axios.patch(`${import.meta.env.VITE_API_SERVER_URL}/posts/${postId}`,formData,config);
+                console.log(formData);
+                const response = await axios.patch(`${import.meta.env.VITE_API_SERVER_URL}/posts/${postId}`,formData,config).then((res)=>{
+                    return res;
+                }).catch((err)=>{
+                    console.log(err.response.data.message);
+                    console.log(err.response);
+                });
                 const data = await response.data;
                 if(data){
                     navigate(`/posts/${postId}`);

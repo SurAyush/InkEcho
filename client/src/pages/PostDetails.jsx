@@ -2,7 +2,6 @@ import React from "react";
 import {useState, useEffect, useContext} from "react";
 import { Link,useParams } from "react-router-dom";
 import axios from 'axios';
-import DOMPurify from 'dompurify'
 import Loader from "../components/Loader.jsx";
 import PostAuthor from "../components/PostAuthor.jsx";
 import LastUpdated from "../components/LastUpdated.jsx";
@@ -37,6 +36,7 @@ const PostDetails = () =>{
                 if(currUser?.userId == author){
                     setIsAuthor(true);
                 }
+                console.log(data);
             }
             catch(err){
                 console.log(err);
@@ -71,8 +71,8 @@ const PostDetails = () =>{
             </div>}
 
             <div
-                className="cont-div"
-                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
+                className="cont-div prose"
+                dangerouslySetInnerHTML={{ __html: post.content }}
             />
             <div className="line"></div>
             <LastUpdated updatedAt={post.updatedAt} prefix={"Created"}/>
