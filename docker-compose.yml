@@ -1,0 +1,56 @@
+name: ink-echo
+
+services:
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: unless-stopped          # keeps running(even if say machine restarted) unless explicitly stopped 
+    env_file: ./server/.env
+    volumes:
+      - ./server:/app                 # bind mount : creates a volume with ./server as source, so any changes in ./server will reflect in /app without re building the image
+      - /app/node_modules             # ignores node_modules in /app and uses the one in /app/node_modules
+    ports:
+      - 3000:3000                    # local:container
+    networks:
+      - ink-echo
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: ./client/.env
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    ports:
+      - 8080:5173
+    networks:
+      - ink-echo
+    command: npm run dev -- --host             # we didn't use npm run dev in client Dockerfile, so we use it here
+    depends_on:                                # only executes after api is up  
+      - api
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - 80:80          # http
+      - 443:443        # https
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile        # bind mount - any changes to Caddyfile will reflect in /etc/caddy/Caddyfile
+      - caddy_data:/data                              # named volume (creates a named volume caddy_data and mounts it to /data in conatiner ) - persists data (certificates) even if container is removed
+      - caddy_config:/config                          # named volume - persists config even if container is removed
+    networks:
+      - ink-echo
+    depends_on:
+      - api
+      - frontend
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  ink-echo:
+    driver: bridge

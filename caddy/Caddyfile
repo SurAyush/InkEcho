@@ -1,0 +1,12 @@
+{
+    local_certs
+}
+
+inkecho.localhost {
+    encode gzip                          # compress responses before sending to client
+    reverse_proxy frontend:5173          # reverse proxy on port 5173 (container)
+}
+
+api.inkecho.localhost {
+    reverse_proxy api:3000
+}

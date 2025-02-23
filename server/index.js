@@ -31,3 +31,9 @@ connect(process.env.MONGO_URI).then(()=>{
 }).catch((err)=>{
     console.log(err);
 });
+
+app.get('/',(req,res)=>{
+    res.send
+    ('Server is running');
+}
+);
