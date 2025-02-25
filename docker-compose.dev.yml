@@ -10,6 +10,7 @@ services:
     volumes:
       - ./server:/app                 # bind mount : creates a volume with ./server as source, so any changes in ./server will reflect in /app without re building the image
       - /app/node_modules             # ignores node_modules in /app and uses the one in /app/node_modules
+      - ./server/uploads:/app/uploads        # Persist uploaded files
     ports:
       - 3000:3000                    # local:container
     networks:
@@ -20,7 +21,8 @@ services:
       context: ./client
       target: development
       args:
-        VITE_API_URL: https://api.inkecho.localhost
+        VITE_API_SERVER_URL: https://api.inkecho.localhost/api
+        VITE_API_ASSETS_URL: https://api.inkecho.localhost
     restart: unless-stopped
     env_file: ./client/.env
     volumes:
