@@ -1,4 +1,4 @@
-FROM node:18-alpine as development
+FROM node:18-alpine AS development
 
 WORKDIR /app
 
@@ -11,9 +11,9 @@ COPY . .
 # Execute  (can be done from docker-compose.yml too)
 CMD ["npm", "run", "dev"]
 
-# for production
 
-FROM node:18-alpine as production
+# for production
+FROM node:18-alpine AS production
 
 WORKDIR /app
 

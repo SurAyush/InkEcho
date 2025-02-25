@@ -1,4 +1,4 @@
-name: ink-echo
+name: ink-echo-dev
 
 services:
   api:
@@ -20,9 +20,6 @@ services:
     build:
       context: ./client
       target: development
-      args:
-        VITE_API_SERVER_URL: https://api.inkecho.localhost/api
-        VITE_API_ASSETS_URL: https://api.inkecho.localhost
     restart: unless-stopped
     env_file: ./client/.env
     volumes:

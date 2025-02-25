@@ -1,0 +1,49 @@
+# forwards all requests to the frontend/client service
+
+{$DOMAIN_NAME:invalid} {
+    encode gzip
+    reverse_proxy frontend:5173     # container name and port
+}
+
+# redirects all www requests to the non-www version
+www.{$DOMAIN_NAME:invalid} {
+	redir https://{$DOMAIN_NAME:invalid}{uri} permanent        
+}
+
+# forwards all requests to the api service
+api.{$DOMAIN_NAME:invalid} {
+    reverse_proxy api:3000
+
+    # security headers
+	 header {
+        -X-Powered-By
+        -Server
+
+        # enable HSTS
+        Strict-Transport-Security max-age=31536000;
+
+        # disable clients from sniffing the media type
+        X-Content-Type-Options nosniff
+
+        # clickjacking protection
+        X-Frame-Options DENY
+
+        # XSS Protection
+        X-XSS-Protection "1; mode=block"
+    }
+
+	rate_limit {
+        # limit requests based on IP address
+        zone api_limit {
+            key {remote_host}
+            events 1000
+            window 1m
+        }
+
+        zone burst_limit {
+            key {remote_host}
+            events 50
+            window 1s
+        }
+    }
+}

@@ -1,0 +1,14 @@
+# Production
+{
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+
+:5173 {                                   # directly map to container port
+    root * /srv
+    encode gzip
+    try_files {path} /index.html      # redirect all requests to index.html
+    file_server
+}

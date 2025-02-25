@@ -10,10 +10,10 @@ const Footer = () =>{
     </span>
     <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
         <li>
-            <a href={import.meta.env.VITE_API_MY_LINKEDIN} className="icons"><FaLinkedin/></a>
+            <a href={import.meta.env.VITE_API_MY_LINKEDIN||"https://www.linkedin.com/in/ayush-sur-6222b0291/"} className="icons"><FaLinkedin/></a>
         </li>
         <li>
-            <a href={import.meta.env.VITE_API_MY_GITHUB} className="icons"><FaGithub /></a>
+            <a href={import.meta.env.VITE_API_MY_GITHUB||"https://github.com/SurAyush"} className="icons"><FaGithub /></a>
         </li>
     </ul>
     </div>
