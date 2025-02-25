@@ -36,13 +36,13 @@ api.{$DOMAIN_NAME:invalid} {
         # limit requests based on IP address
         zone api_limit {
             key {remote_host}
-            events 1000
+            events 2000
             window 1m
         }
 
         zone burst_limit {
             key {remote_host}
-            events 50
+            events 100
             window 1s
         }
     }
